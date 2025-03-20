@@ -1,5 +1,6 @@
 using Microsoft.Playwright;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace DemoPlaywright
 {
@@ -54,10 +55,15 @@ namespace DemoPlaywright
             await page.GotoAsync("https://pregnancy-growth-tracking.vercel.app/login");
             
             await page.FillAsync("#usernameOrEmail", account[0]);
-
             await page.FillAsync("#password", account[1]);
-
             await page.ClickAsync("button:has-text('Đăng nhập')");
+
+            // Đợi cho toast message xuất hiện và kiểm tra nội dung
+            IElementHandle? toastMessage = await page.WaitForSelectorAsync(".Toastify__toast-body > div:nth-child(2)");
+            string? messageText = await toastMessage.TextContentAsync();
+            
+            // Assert using NUnit
+            Assert.That(messageText, Is.EqualTo("Đăng nhập thành công!"));
 
             await Task.Delay(3000);
         }
