@@ -43,6 +43,7 @@ namespace DemoPlaywright
             List<List<string>> listAccountTest = new();
 
             listAccountTest.Add(new List<string> { "vip1", "vip123" });
+            listAccountTest.Add(new List<string> { "swt", "swt123" });
             listAccountTest.Add(new List<string> { "member1", "member123" });
             listAccountTest.Add(new List<string> { "kiet", "kiet123" });
 
@@ -66,6 +67,30 @@ namespace DemoPlaywright
             Assert.That(messageText, Is.EqualTo("Đăng nhập thành công!"));
 
             await Task.Delay(3000);
+
+            // Click vào "Lịch Trình Thăm Khám"
+            await page.ClickAsync("a[href='/member/calendar']");
+            // Click vào nút "Thêm sự kiện"
+            await page.ClickAsync(".add-event-btn");
+            // Điền thông tin sự kiện
+            await page.FillAsync("input[placeholder='Tiêu đề']", "Sức Khỏe");
+            await page.FillAsync("input[type='date']", "2025-03-22");
+            await page.FillAsync("input[type='time']", "11:00");
+            // Chọn danh mục từ 
+            await page.SelectOptionAsync("div.modal-content form select", new SelectOptionValue { Value = "Uống thuốc" });
+            // Điền thông báo
+            await page.FillAsync("textarea[placeholder='Thông báo']", "Bạn hãy nhớ uống thuốc đúng giờ nhé.");
+            
+            await page.ClickAsync("button[type='submit']");
+
+            await Task.Delay(5000);
+
+            toastMessage = await page.WaitForSelectorAsync(".Toastify__toast-body > div:nth-child(2)");
+            messageText = await toastMessage.TextContentAsync();
+
+            Assert.That(messageText, Is.EqualTo("Lưu thành công!"));
+
+            await Task.Delay(5000); 
         }
     }
 }
