@@ -1,6 +1,7 @@
 using Microsoft.Playwright;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using System.Runtime.InteropServices;
 
 namespace DemoPlaywright
 {
