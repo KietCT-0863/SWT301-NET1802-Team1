@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace DemoPlaywright
 {
-    public class LoginTest
+    public class TestLogin
     {
         private IPlaywright playwright;
         private IBrowser browser;
