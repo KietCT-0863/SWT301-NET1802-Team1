@@ -23,4 +23,14 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Img\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Img\walking_17492446.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
