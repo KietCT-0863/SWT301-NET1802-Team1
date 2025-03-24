@@ -3,10 +3,11 @@
 on:
   push:
     branches:
-      - CreatePost1Test  
+      - CreatePost1Test  # Chạy trên nhánh CreatePost1Test
   pull_request:
     branches:
-      - CreatePost1Test 
+      - CreatePost1Test  # Chạy trên nhánh CreatePost1Test
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -25,24 +26,24 @@ jobs:
     # Bước 3: Cài đặt Playwright dependencies
     - name: Install Playwright dependencies
       run: |
-        dotnet restore DemoPlayWright.csproj
+        dotnet restore DemoPlaywright.csproj
         dotnet tool install --global Microsoft.Playwright.CLI
         playwright install --with-deps
       working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
 
     # Bước 4: Clean dự án
     - name: Clean project
-      run: dotnet clean DemoPlayWright.csproj --configuration Release
+      run: dotnet clean DemoPlaywright.csproj --configuration Release
       working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
 
     # Bước 5: Build dự án
     - name: Build project
-      run: dotnet build DemoPlayWright.csproj --configuration Release
+      run: dotnet build DemoPlaywright.csproj --configuration Release
       working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
 
     # Bước 6: Chạy các test
     - name: Run tests
-      run: dotnet test DemoPlayWright.csproj --configuration Release --no-build --verbosity normal
+      run: dotnet test DemoPlaywright.csproj --configuration Release --no-build --verbosity normal
       working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
 
     # Bước 7: (Tùy chọn) Báo cáo kết quả test
