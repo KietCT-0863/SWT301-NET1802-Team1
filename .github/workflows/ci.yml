@@ -61,9 +61,3 @@ jobs:
     - name: Test TestRegister
       run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --filter "FullyQualifiedName~DemoPlaywright.TestRegister"
       continue-on-error: true
-
-    - name: Publish test results
-      if: always()
-      uses: EnricoMi/publish-unit-test-result-action@v2
-      with:
-        files: "**/TestResults/*.trx"
