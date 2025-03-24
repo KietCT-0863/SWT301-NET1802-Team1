@@ -47,19 +47,19 @@ jobs:
       run: dotnet clean "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }}
 
     - name: Test CreatePostTest
-      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --filter "FullyQualifiedName~CreatePostTest"
+      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --filter "FullyQualifiedName~DemoPlaywright.CreatePostTest"
       continue-on-error: true
 
     - name: Test CreateReminders
-      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --filter "FullyQualifiedName~CreateReminders"
+      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --filter "FullyQualifiedName~DemoPlaywright.CreateReminders"
       continue-on-error: true
 
     - name: Test TestLogin
-      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --filter "FullyQualifiedName~TestLogin"
+      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --filter "FullyQualifiedName~DemoPlaywright.TestLogin"
       continue-on-error: true
 
     - name: Test TestRegister
-      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --filter "FullyQualifiedName~TestRegister"
+      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --filter "FullyQualifiedName~DemoPlaywright.TestRegister"
       continue-on-error: true
 
     - name: Publish test results
