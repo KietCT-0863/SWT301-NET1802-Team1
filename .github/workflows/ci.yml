@@ -7,40 +7,44 @@ on:
   pull_request:
     branches:
       - CreatePost1Test
+  workflow_dispatch:
+
+env:
+  CONFIGURATION: Release
+  DOTNET_CORE_VERSION: 8.0.x
+  WORKING_DIRECTORY: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright/DemoPlaywright.csproj
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-    # Bước 1: Checkout code từ repository
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    # Bước 2: Thiết lập .NET SDK
     - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x' # Thay đổi phiên bản .NET nếu cần (dựa trên dự án của bạn)
+        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
 
-    # Bước 3: Cài đặt Playwright dependencies
-    - name: Install Playwright dependencies
-      run: |
-        dotnet restore
-        dotnet tool install --global Microsoft.Playwright.CLI
-        playwright install --with-deps
+    - name: Restore
+      run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
 
-    # Bước 4: Build dự án
-    - name: Build project
-      run: dotnet build DemoPlaywright.csproj --configuration Release
+    - name: Install Playwright CLI
+      run: dotnet tool install --global Microsoft.Playwright.CLI
 
-    # Bước 5: Chạy các test
-    - name: Run tests
-      run: dotnet test DemoPlaywright.csproj --configuration Release --no-build --verbosity normal
+    - name: Install Playwright browsers and dependencies
+      run: playwright install --with-deps
 
-    # Bước 6: (Tùy chọn) Báo cáo kết quả test
+    - name: Clean
+      run: dotnet clean "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }}
+
+    - name: Build
+      run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+
+    - name: Test
+      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal
+
     - name: Publish test results
-      if: always() # Chạy bước này ngay cả khi test thất bại
+      if: always()
       uses: EnricoMi/publish-unit-test-result-action@v2
       with:
-        files: "**/TestResults/*.trx" # Định dạng kết quả test của NUnit
+        files: "**/TestResults/*.trx"
