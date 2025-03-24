@@ -26,7 +26,7 @@ jobs:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
 
     - name: Restore Project
-      run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
+      run: dotnet restore ${{ github.workspace }}/DemoPlaywright/DemoPlaywright/DemoPlaywright.csproj
 
     - name: Install Playwright CLI and browsers
       run: |
