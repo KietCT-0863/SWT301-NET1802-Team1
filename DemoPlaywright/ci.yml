@@ -3,11 +3,10 @@
 on:
   push:
     branches:
-      - CreatePost1Test
+      - CreatePost1Test  
   pull_request:
     branches:
-      - CreatePost1Test
-
+      - CreatePost1Test 
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -26,19 +25,27 @@ jobs:
     # Bước 3: Cài đặt Playwright dependencies
     - name: Install Playwright dependencies
       run: |
-        dotnet restore
+        dotnet restore DemoPlayWright.csproj
         dotnet tool install --global Microsoft.Playwright.CLI
         playwright install --with-deps
+      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
 
-    # Bước 4: Build dự án
+    # Bước 4: Clean dự án
+    - name: Clean project
+      run: dotnet clean DemoPlayWright.csproj --configuration Release
+      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
+
+    # Bước 5: Build dự án
     - name: Build project
-      run: dotnet build DemoPlaywright.csproj --configuration Release
+      run: dotnet build DemoPlayWright.csproj --configuration Release
+      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
 
-    # Bước 5: Chạy các test
+    # Bước 6: Chạy các test
     - name: Run tests
-      run: dotnet test DemoPlaywright.csproj --configuration Release --no-build --verbosity normal
+      run: dotnet test DemoPlayWright.csproj --configuration Release --no-build --verbosity normal
+      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
 
-    # Bước 6: (Tùy chọn) Báo cáo kết quả test
+    # Bước 7: (Tùy chọn) Báo cáo kết quả test
     - name: Publish test results
       if: always() # Chạy bước này ngay cả khi test thất bại
       uses: EnricoMi/publish-unit-test-result-action@v2
