@@ -83,8 +83,8 @@ namespace DemoPlaywright
 
             // Lấy ngày và giờ hiện tại
             DateTime now = DateTime.Now;
-            string currentDate = now.ToString("2025-03-22");  
-            string currentTime = now.ToString("16:45");       
+            string currentDate = now.ToString("2025-04-24");  
+            string currentTime = now.ToString("15:30");       
 
             // Điền ngày và giờ hiện tại vào form
             await page.FillAsync("input[type='date']", currentDate);
@@ -98,6 +98,6 @@ namespace DemoPlaywright
 
             await Task.Delay(3000);
         }
-
     }
 }
+

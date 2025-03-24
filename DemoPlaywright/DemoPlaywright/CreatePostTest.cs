@@ -29,7 +29,7 @@ namespace DemoPlaywright
         [TearDown]
         public async Task Cleanup()
         {
-            await browser.CloseAsync();  // Đóng trình duyệt ngay lập tức
+            await browser.CloseAsync();
             playwright.Dispose();
         }
 

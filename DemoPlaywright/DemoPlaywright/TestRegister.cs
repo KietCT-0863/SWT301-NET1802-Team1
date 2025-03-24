@@ -46,7 +46,7 @@ namespace DemoPlaywright
         {
             List<List<string>> listAccountTest = new();
 
-            listAccountTest.Add(new List<string> { "TestRegister1", "Tester", "test1@gmail.com", "0987654321", "Test123", "Test123", "01-22-2001" });
+            listAccountTest.Add(new List<string> { "TestRegister", "Tester", "test@gmail.com", "0987654321", "Test123", "Test123", "01-22-2001" });
 
             return listAccountTest;
         }
