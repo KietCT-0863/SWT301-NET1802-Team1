@@ -3,10 +3,10 @@
 on:
   push:
     branches:
-      - main
+      - CreatePost1Test
   pull_request:
     branches:
-      - main
+      - CreatePost1Test
 
 jobs:
   test:
