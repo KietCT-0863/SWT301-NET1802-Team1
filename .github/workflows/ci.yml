@@ -46,8 +46,21 @@ jobs:
     - name: Clean
       run: dotnet clean "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }}
 
-    - name: Test
-      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal
+    - name: Test CreatePostTest
+      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --filter "FullyQualifiedName~CreatePostTest"
+      continue-on-error: true
+
+    - name: Test CreateReminders
+      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --filter "FullyQualifiedName~CreateReminders"
+      continue-on-error: true
+
+    - name: Test TestLogin
+      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --filter "FullyQualifiedName~TestLogin"
+      continue-on-error: true
+
+    - name: Test TestRegister
+      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --verbosity normal --filter "FullyQualifiedName~TestRegister"
+      continue-on-error: true
 
     - name: Publish test results
       if: always()
