@@ -1,0 +1,46 @@
+﻿name: CI Pipeline for Playwright Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Bước 1: Checkout code từ repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Bước 2: Thiết lập .NET SDK
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x' # Thay đổi phiên bản .NET nếu cần (dựa trên dự án của bạn)
+
+    # Bước 3: Cài đặt Playwright dependencies
+    - name: Install Playwright dependencies
+      run: |
+        dotnet restore
+        dotnet tool install --global Microsoft.Playwright.CLI
+        playwright install --with-deps
+
+    # Bước 4: Build dự án
+    - name: Build project
+      run: dotnet build DemoPlaywright.csproj --configuration Release
+
+    # Bước 5: Chạy các test
+    - name: Run tests
+      run: dotnet test DemoPlaywright.csproj --configuration Release --no-build --verbosity normal
+
+    # Bước 6: (Tùy chọn) Báo cáo kết quả test
+    - name: Publish test results
+      if: always() # Chạy bước này ngay cả khi test thất bại
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      with:
+        files: "**/TestResults/*.trx" # Định dạng kết quả test của NUnit
