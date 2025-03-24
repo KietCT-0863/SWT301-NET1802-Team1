@@ -32,6 +32,10 @@ jobs:
     - name: Build
       run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
 
+    - name: Debug output directory
+      run: ls -R bin/Release/net8.0/
+      working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
+
     - name: Install Playwright CLI
       run: dotnet tool install --global Microsoft.Playwright.CLI
 
