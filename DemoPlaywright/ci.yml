@@ -18,7 +18,7 @@ jobs:
     steps:
     # Bước 1: Checkout code từ repository
     - name: Checkout code
-      uses: actions/checkout@v4  # Nâng cấp lên phiên bản mới nhất (tương tự file deploy)
+      uses: actions/checkout@v4
 
     # Bước 2: Debug cấu trúc thư mục
     - name: Debug directory structure
@@ -30,9 +30,9 @@ jobs:
 
     # Bước 3: Thiết lập .NET SDK
     - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4  # Nâng cấp lên phiên bản mới nhất (tương tự file deploy)
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x'  # Phiên bản .NET 8.x (tương tự file deploy)
+        dotnet-version: '8.0.x'
 
     # Bước 4: Cài đặt Playwright dependencies
     - name: Install Playwright dependencies
@@ -40,12 +40,12 @@ jobs:
         dotnet restore DemoPlaywright.sln
         dotnet tool install --global Microsoft.Playwright.CLI
         playwright install --with-deps
-      working-directory: ${{ github.workspace }}  # File .sln nằm ở thư mục gốc
+      working-directory: ${{ github.workspace }}
 
     # Bước 5: Clean dự án
     - name: Clean project
       run: dotnet clean DemoPlaywright.csproj --configuration Release
-      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright  # File .csproj nằm ở thư mục này
+      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
 
     # Bước 6: Build dự án
     - name: Build project
@@ -56,4 +56,3 @@ jobs:
     - name: Run tests
       run: dotnet test DemoPlaywright.csproj --configuration Release --no-build --verbosity normal
       working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
-
