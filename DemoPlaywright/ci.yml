@@ -33,7 +33,7 @@ jobs:
     # Bước 4: Cài đặt Playwright dependencies
     - name: Install Playwright dependencies
       run: |
-        dotnet restore
+        dotnet restore ${{ github.workspace }}/DemoPlaywright/DemoPlaywright/DemoPlaywright.csproj
         dotnet tool install --global Microsoft.Playwright.CLI
         playwright install --with-deps
       working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright/DemoPlaywright.csproj
