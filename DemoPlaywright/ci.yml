@@ -7,48 +7,53 @@ on:
   pull_request:
     branches:
       - CreatePost1Test  # Chạy trên nhánh CreatePost1Test
+  workflow_dispatch:  # Cho phép chạy thủ công
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read  # Cần quyền đọc để checkout code
 
     steps:
     # Bước 1: Checkout code từ repository
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4  # Nâng cấp lên phiên bản mới nhất (tương tự file deploy)
 
     # Bước 2: Debug cấu trúc thư mục
     - name: Debug directory structure
       run: |
         ls -R
         pwd
+        find . -name "DemoPlaywright.sln"
         find . -name "DemoPlaywright.csproj"
 
     # Bước 3: Thiết lập .NET SDK
     - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4  # Nâng cấp lên phiên bản mới nhất (tương tự file deploy)
       with:
-        dotnet-version: '8.0.x' # Thay đổi phiên bản .NET nếu cần (dựa trên dự án của bạn)
+        dotnet-version: '8.0.x'  # Phiên bản .NET 8.x (tương tự file deploy)
 
     # Bước 4: Cài đặt Playwright dependencies
     - name: Install Playwright dependencies
       run: |
-        dotnet restore ${{ github.workspace }}/DemoPlaywright/DemoPlaywright/DemoPlaywright.csproj
+        dotnet restore DemoPlaywright.sln
         dotnet tool install --global Microsoft.Playwright.CLI
         playwright install --with-deps
-      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright/DemoPlaywright.csproj
+      working-directory: ${{ github.workspace }}  # File .sln nằm ở thư mục gốc
 
     # Bước 5: Clean dự án
     - name: Clean project
       run: dotnet clean DemoPlaywright.csproj --configuration Release
-      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright/DemoPlaywright.csproj
+      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright  # File .csproj nằm ở thư mục này
 
     # Bước 6: Build dự án
     - name: Build project
       run: dotnet build DemoPlaywright.csproj --configuration Release
-      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright/DemoPlaywright.csproj
+      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
 
     # Bước 7: Chạy các test
     - name: Run tests
       run: dotnet test DemoPlaywright.csproj --configuration Release --no-build --verbosity normal
-      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright/DemoPlaywright.csproj
+      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
+
