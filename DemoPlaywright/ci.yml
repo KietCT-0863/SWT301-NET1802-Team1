@@ -41,21 +41,14 @@ jobs:
     # Bước 5: Clean dự án
     - name: Clean project
       run: dotnet clean DemoPlaywright.csproj --configuration Release
-      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
+      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright/DemoPlaywright.csproj
 
     # Bước 6: Build dự án
     - name: Build project
       run: dotnet build DemoPlaywright.csproj --configuration Release
-      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
+      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright/DemoPlaywright.csproj
 
     # Bước 7: Chạy các test
     - name: Run tests
       run: dotnet test DemoPlaywright.csproj --configuration Release --no-build --verbosity normal
-      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright
-
-    # Bước 8: (Tùy chọn) Báo cáo kết quả test
-    - name: Publish test results
-      if: always() # Chạy bước này ngay cả khi test thất bại
-      uses: EnricoMi/publish-unit-test-result-action@v2
-      with:
-        files: "**/TestResults/*.trx" # Định dạng kết quả test của NUnit
+      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright/DemoPlaywright.csproj
