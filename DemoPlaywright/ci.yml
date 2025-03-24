@@ -36,7 +36,7 @@ jobs:
         dotnet restore
         dotnet tool install --global Microsoft.Playwright.CLI
         playwright install --with-deps
-      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright.sln
+      working-directory: ${{ github.workspace }}/DemoPlaywright/DemoPlaywright.csproj
 
     # Bước 5: Clean dự án
     - name: Clean project
